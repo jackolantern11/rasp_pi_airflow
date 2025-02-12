@@ -6,18 +6,21 @@ Install airflow on rasp pi
 1. Create 'airflow' directory @ ~
 2. Update rasp pi `sudo apt update && sudo apt upgrade`
 3. Install required packages `sudo apt-get install python3 python3-pip`
-    a. This may include the following depending on what's been done on the rasp pi previously:
-        * default-jre-headless \
-        * gcc \
-        * ca-certificates \
-        * build-essential \
-        * ldap-utils \
-        * libsasl2-dev \
-        * libldap2-dev \
-        * libssl-dev \
-        * openssh-server \
-        * libaio1 \
-        * libpq-dev \
+
+    1. This may include the following depending on what's been done on the rasp pi previously:
+
+        * default-jre-headless
+        * gcc 
+        * ca-certificates 
+        * build-essential 
+        * ldap-utils 
+        * libsasl2-dev 
+        * libldap2-dev 
+        * libssl-dev 
+        * openssh-server 
+        * libaio1 
+        * libpq-dev
+
 4. Create virtual env for airflow (`python -m venv`)
 5. Activate the virtual env
 6. Install airflow `pip install "apache-airflow==2.6.1" --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.6.1/constraints-3.9.txt"`
