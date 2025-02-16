@@ -30,7 +30,74 @@ Install airflow on rasp pi 4
 
 ## Service Config
 
+Set up airflow as a service on the pi. When the pi restarts, airflow will restart automatically.
 
+[Airflow Github systemd scripts](https://github.com/apache/airflow/tree/main/scripts/systemd)
+
+
+1. Copy the files airflow-webserver.service and airflow-scheduler.service to /etc/systemd/system/
+    
+    * Update the airflow-webserver.service:
+
+    ```   
+    [Unit]
+    Description=Airflow webserver daemon
+    After=network.target vasd.service
+
+    [Service]
+    EnvironmentFile=/etc/sysconfig/airflow
+    User=zfreeze
+    Group=zfreeze
+    Type=simple
+    ExecStart=/bin/bash -c 'source /home/zfreeze/.virtualenvs/airflow/bin/activate && airflow webserver --pid /home/zfreeze/airflow/webserver.pid'
+    Restart=on-failure
+    RestartSec=5s
+    PrivateTmp=true
+        
+    [Install]
+    WantedBy=multi-user.target
+    ```
+
+    * Update the airflow-scheduler.service
+
+    ```
+    [Unit]
+    Description=Airflow scheduler daemon
+    After=network.target vasd.service
+
+    [Service]
+    EnvironmentFile=/etc/sysconfig/airflow
+    User=zfreeze
+    Group=zfreezes
+    Type=simple
+    ExecStart=/bin/bash -c 'source /home/zfreeze/.virtualenvs/airflow/bin/activate && airflow scheduler'
+    Restart=always
+    RestartSec=5s
+
+    [Install]
+    WantedBy=multi-user.target
+    ```
+
+2. Copy the file airflow to /etc/sysconfig/
+
+    * Update the airflow file
+
+    ```
+    AIRFLOW_CONFIG=/home/zfreeze/airflow/airflow.cfg
+    AIRFLOW_HOME=/home/zfreeze/airflow/
+    ```
+
+3. Enable and start the airflow service
+
+    ```
+    sudo systemctl daemon-reload 
+    sudo systemctl enable airflow-webserver.service 
+    sudo systemctl enable airflow-scheduler.service 
+    sudo systemctl start airflow-webserver.service 
+    sudo systemctl start airflow-scheduler.service
+    ```
+
+## MySQL Backend Config
 
 ## Helpful Guides
 
