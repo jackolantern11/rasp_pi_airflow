@@ -102,8 +102,8 @@ Set up airflow as a service on the pi. When the pi restarts, airflow will restar
 This will allow tasks to run in parallel using the local executor (instead of sequentially only).
 Data from sqlite will be lost with this method. But that's probably okay.
 
-1. sudo apt update && sudo apt upgrade
-2. sudo apt install postgresql
+1. `sudo apt update && sudo apt upgrade`
+2. `sudo apt install postgresql`
 3. Set up airflow database & user using psql commands:
 
     **Helpful psql commands:**
@@ -119,7 +119,7 @@ Data from sqlite will be lost with this method. But that's probably okay.
     8. Use `\d` to list all tables in database
 
     **Airflow DB Setup:**
-    
+
     ```
     CREATE DATABASE airflow_db;
     CREATE USER airflow_user WITH PASSWORD 'airflow_pass';
@@ -130,13 +130,13 @@ Data from sqlite will be lost with this method. But that's probably okay.
 
 4. pip install 'apache-airflow[mysql]' (in airflow venv)
 5. Update airflow.cfg file:
-    1. sql_alchemy_conn = sql_alchemy_conn = postgresql+psycopg2://airflow_user:airflow_pass@localhost:5432/airflow_db
-    2. executor = LocalExecutor
+    1. `sql_alchemy_conn = sql_alchemy_conn = postgresql+psycopg2://airflow_user:airflow_pass@localhost:5432/airflow_db`
+    2. `executor = LocalExecutor`
 6. airflow db reset (in airflow venv)
 7. airflow db init (in airflow venv)
 8. Restart airflow services:
-    1. sudo systemctl restart airflow-scheduler.service
-    2. sudo systemctl restart airflow-webserver.service
+    1. `sudo systemctl restart airflow-scheduler.service`
+    2. `sudo systemctl restart airflow-webserver.service`
 
 
 ## Helpful Websites:
