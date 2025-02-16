@@ -97,12 +97,58 @@ Set up airflow as a service on the pi. When the pi restarts, airflow will restar
     sudo systemctl start airflow-scheduler.service
     ```
 
-## MySQL Backend Config
+## Postgresql Backend Config (LocalExecutor)
 
-## Helpful Guides
+This will allow tasks to run in parallel using the local executor (instead of sequentially only).
+Data from sqlite will be lost with this method. But that's probably okay.
+
+1. sudo apt update && sudo apt upgrade
+2. sudo apt install postgresql
+3. Set up airflow database & user using psql commands:
+
+    **Helpful psql commands:**
+
+    1. Connect as postgres user: `sudo su postgres` (required after initial setup)
+    2. Create new user: `createuser <USERNAME> -P --interactive` (set password)
+    3. Start psql connection: `psql`
+    4. Create database: `CREATE DATABASE name;`
+    5. Connect to specific database as user: `psql -U zfreeze -d test`
+    6. Leave psql: `exit`
+    7. If you create a database with the same name as your username, you can run `psql user` and it will
+    auto connect you to the database
+    8. Use `\d` to list all tables in database
+
+    **Airflow DB Setup:**
+    
+    ```
+    CREATE DATABASE airflow_db;
+    CREATE USER airflow_user WITH PASSWORD 'airflow_pass';
+    GRANT ALL PRIVILEGES ON DATABASE airflow_db TO airflow_user;
+    -- PostgreSQL 15 requires additional privileges:
+    GRANT ALL ON SCHEMA public TO airflow_user;
+    ```
+
+4. pip install 'apache-airflow[mysql]' (in airflow venv)
+5. Update airflow.cfg file:
+    1. sql_alchemy_conn = sql_alchemy_conn = postgresql+psycopg2://airflow_user:airflow_pass@localhost:5432/airflow_db
+    2. executor = LocalExecutor
+6. airflow db reset (in airflow venv)
+7. airflow db init (in airflow venv)
+8. Restart airflow services:
+    1. sudo systemctl restart airflow-scheduler.service
+    2. sudo systemctl restart airflow-webserver.service
+
+
+## Helpful Websites:
 
 * [Airflow Docs](https://airflow.apache.org/docs/apache-airflow/stable/start.html)
 
 * [The Crusty Engineer P1](http://www.thecrustyengineer.com/post/setting_up_airflow_on_a_raspberry_pi_4_part_1)
 
 * [The Crusty Engineer P2](http://www.thecrustyengineer.com/post/setting_up_airflow_on_a_raspberry_pi_4_part_2)
+
+* [Postgresql on PI](https://singleboardblog.com/install-postgresql-on-raspberry-pi/)
+
+* [Postgresql on PI](https://pimylifeup.com/raspberry-pi-postgresql/)
+
+* [Postgresql Airflow Docs](https://airflow.apache.org/docs/apache-airflow/stable/howto/set-up-database.html#setting-up-a-postgresql-database)
