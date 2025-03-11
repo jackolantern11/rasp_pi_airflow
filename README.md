@@ -28,6 +28,8 @@ Install airflow on rasp pi 4
 
     1. Airflow versions beyond 2.6.1 will run into issues due to the package [google-re2](https://pypi.org/project/google-re2/) - wheels will fail to build on rasp pi
 
+7. Install other helpful packages as required by dags ex. `pip install pandas`
+
 ## Service Config
 
 Set up airflow as a service on the pi. When the pi restarts, airflow will restart automatically.
