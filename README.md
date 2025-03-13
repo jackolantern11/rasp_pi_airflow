@@ -22,7 +22,7 @@ Install airflow on rasp pi 4
         * libaio1 
         * libpq-dev
         * libatlas-base-dev
-        * libopenblas-dev (required for numpy/pandas - see [Rasp Pi Numpy Docs](https://numpy.org/devdocs/user/troubleshooting-importerror.html#raspberry-pi) & [Numpy Stack Exchange](libopenblas-dev))
+        * libopenblas-dev (required for numpy/pandas - see [Rasp Pi Numpy Docs](https://numpy.org/devdocs/user/troubleshooting-importerror.html#raspberry-pi) & [Numpy Stack Exchange](https://stackoverflow.com/questions/14570011/explain-why-numpy-should-not-be-imported-from-source-directory))
 
 4. Create virtual env for airflow (`python -m venv`)
 5. Activate the virtual env (`source ./activate`)
